@@ -3,18 +3,33 @@ package com.github.deividasp.hstracker.hs;
 import com.github.deividasp.hstracker.hs.entry.MinigameEntry;
 import com.github.deividasp.hstracker.hs.entry.SkillEntry;
 
+import javax.persistence.*;
+
 import java.util.Map;
 import java.util.Optional;
 
 /**
  * @author Deividas Popelskis <deividas.popelskis@gmail.com>
  */
+@Entity
+@Table(name = "high_scores")
+@IdClass(HighScoresPK.class)
 public class HighScores {
 
-	private final String username;
-	private final GameModes gameMode;
-	private final Map<Skills, SkillEntry> skillEntries;
-	private final Map<Minigames, MinigameEntry> minigameEntries;
+	@Id
+	private String username;
+
+	@Id
+	@Enumerated(EnumType.STRING)
+	private GameModes gameMode;
+
+	@OneToMany(cascade = CascadeType.ALL)
+	private Map<Skills, SkillEntry> skillEntries;
+
+	@OneToMany(cascade = CascadeType.ALL)
+	private Map<Minigames, MinigameEntry> minigameEntries;
+
+	private HighScores() { }
 
 	public HighScores(String username, GameModes gameMode, Map<Skills, SkillEntry> skillEntries, Map<Minigames, MinigameEntry> minigameEntries) {
 		this.username = username;

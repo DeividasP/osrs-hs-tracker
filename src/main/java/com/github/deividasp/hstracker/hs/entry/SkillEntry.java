@@ -1,12 +1,19 @@
 package com.github.deividasp.hstracker.hs.entry;
 
+import javax.persistence.Entity;
+import javax.persistence.Table;
+
 /**
  * @author Deividas Popelskis <deividas.popelskis@gmail.com>
  */
+@Entity
+@Table(name = "skill_entries")
 public class SkillEntry extends HighScoresEntry {
 
-	private final int level;
-	private final long experience;
+	private int level;
+	private long experience;
+
+	private SkillEntry() { }
 
 	public SkillEntry(String name, int rank, int level, long experience) {
 		super(name, rank);

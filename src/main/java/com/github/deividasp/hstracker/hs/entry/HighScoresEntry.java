@@ -1,12 +1,23 @@
 package com.github.deividasp.hstracker.hs.entry;
 
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.MappedSuperclass;
+
 /**
  * @author Deividas Popelskis <deividas.popelskis@gmail.com>
  */
+@MappedSuperclass
 public abstract class HighScoresEntry {
 
-	private final String name;
-	private final int rank;
+	@Id
+	@GeneratedValue
+	private long id;
+
+	private String name;
+	private int rank;
+
+	HighScoresEntry() { }
 
 	HighScoresEntry(String name, int rank) {
 		this.name = name;
