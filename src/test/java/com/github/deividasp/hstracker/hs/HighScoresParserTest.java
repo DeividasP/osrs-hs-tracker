@@ -58,4 +58,57 @@ public class HighScoresParserTest {
 		assertEquals(false, parser.parse().isPresent());
 	}
 
+	@Test
+	public void test3() {
+		HighScoresParser parser = new HighScoresParser("Lelalt", GameModes.IRONMAN);
+
+		try {
+			parser.connect();
+		} catch (Exception exception) {
+			exception.printStackTrace();
+		}
+
+		Optional<HighScores> highScoresOptional = parser.parse();
+
+		highScoresOptional.ifPresent(h -> {
+			h.getSkillEntry(Skills.FIREMAKING).ifPresent(e -> assertEquals(1, e.getRank()));
+			h.getSkillEntry(Skills.STRENGTH).ifPresent(e -> assertEquals(99, e.getLevel()));
+			h.getSkillEntry(Skills.FIREMAKING).ifPresent(e -> assertEquals(200000000, e.getExperience()));
+		});
+
+		parser = new HighScoresParser("Lelalt");
+
+		try {
+			parser.connect();
+		} catch (Exception exception) {
+			exception.printStackTrace();
+		}
+
+		highScoresOptional = parser.parse();
+
+		highScoresOptional.ifPresent(h -> {
+			h.getSkillEntry(Skills.FIREMAKING).ifPresent(e -> assertEquals(19, e.getRank()));
+			h.getSkillEntry(Skills.STRENGTH).ifPresent(e -> assertEquals(99, e.getLevel()));
+		});
+	}
+
+	@Test
+	public void test4() {
+		HighScoresParser parser = new HighScoresParser("Navus", GameModes.ULTIMATE_IRONMAN);
+
+		try {
+			parser.connect();
+		} catch (Exception exception) {
+			exception.printStackTrace();
+		}
+
+		Optional<HighScores> highScoresOptional = parser.parse();
+
+		highScoresOptional.ifPresent(h -> {
+			h.getSkillEntry(Skills.COOKING).ifPresent(e -> assertEquals(1, e.getRank()));
+			h.getSkillEntry(Skills.COOKING).ifPresent(e -> assertEquals(99, e.getLevel()));
+			h.getSkillEntry(Skills.COOKING).ifPresent(e -> assertEquals(200000000, e.getExperience()));
+		});
+	}
+
 }
