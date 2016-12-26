@@ -1,5 +1,7 @@
 package com.github.deividasp.hstracker.hs;
 
+import java.util.Optional;
+
 /**
  * @author Deividas Popelskis <deividas.popelskis@gmail.com>
  */
@@ -20,6 +22,15 @@ public enum GameModes {
 
 	public String getUrlParameterSuffix() {
 		return urlParameterSuffix;
+	}
+
+	public static Optional<GameModes> forName(String name) {
+		for (GameModes gameMode : GameModes.values()) {
+			if (gameMode.toString().equalsIgnoreCase(name)) {
+				return Optional.of(gameMode);
+			}
+		}
+		return Optional.empty();
 	}
 
 }
