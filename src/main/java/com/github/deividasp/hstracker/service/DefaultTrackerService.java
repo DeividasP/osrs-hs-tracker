@@ -2,7 +2,6 @@ package com.github.deividasp.hstracker.service;
 
 import com.github.deividasp.hstracker.hs.GameModes;
 import com.github.deividasp.hstracker.hs.HighScores;
-import com.github.deividasp.hstracker.hs.HighScoresPK;
 import com.github.deividasp.hstracker.hs.HighScoresParser;
 import com.github.deividasp.hstracker.repository.HighScoresRepository;
 
@@ -29,7 +28,7 @@ public class DefaultTrackerService implements TrackerService {
 
 	@Override
 	public boolean track(String username, GameModes gameMode) {
-		if (!highScoresRepo.exists(new HighScoresPK(username, gameMode))) {
+		if (!highScoresRepo.existsByUsernameAndGameMode(username, gameMode)) {
 			HighScoresParser parser = new HighScoresParser(username, gameMode);
 
 			try {

@@ -1,4 +1,6 @@
-package com.github.deividasp.hstracker.hs.entry;
+package com.github.deividasp.hstracker.hs.entry.minigame;
+
+import com.github.deividasp.hstracker.hs.entry.HighScoresEntry;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;
@@ -12,9 +14,7 @@ public class MinigameEntry extends HighScoresEntry {
 
 	private int score;
 
-	private MinigameEntry() {
-		super();
-	}
+	private MinigameEntry() { }
 
 	public MinigameEntry(String name, int rank, int score) {
 		super(name, rank);

@@ -1,4 +1,4 @@
-package com.github.deividasp.hstracker.hs;
+package com.github.deividasp.hstracker.hs.entry.skill;
 
 /**
  * @author Deividas Popelskis <deividas.popelskis@gmail.com>

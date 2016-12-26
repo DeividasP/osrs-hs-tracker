@@ -1,7 +1,9 @@
 package com.github.deividasp.hstracker.hs;
 
-import com.github.deividasp.hstracker.hs.entry.MinigameEntry;
-import com.github.deividasp.hstracker.hs.entry.SkillEntry;
+import com.github.deividasp.hstracker.hs.entry.minigame.MinigameEntry;
+import com.github.deividasp.hstracker.hs.entry.minigame.Minigames;
+import com.github.deividasp.hstracker.hs.entry.skill.SkillEntry;
+import com.github.deividasp.hstracker.hs.entry.skill.Skills;
 import com.github.deividasp.hstracker.util.ParseUtils;
 
 import org.jsoup.Jsoup;
@@ -77,7 +79,7 @@ public class HighScoresParser {
 		document.select(ENTRIES_QUERY).stream().filter(e -> e.select(ENTRY_COLUMNS_QUERY).size() == MINIGAME_ENTRY_COLUMN_COUNT)
 				.forEach(e -> parseMinigameEntry(e, minigameEntries));
 
-		return Optional.of(new HighScores(username, gameMode, skillEntries, minigameEntries));
+		return Optional.of(new HighScores(username, gameMode, System.currentTimeMillis(), skillEntries, minigameEntries));
 	}
 
 	private boolean userExists() {

@@ -1,4 +1,6 @@
-package com.github.deividasp.hstracker.hs.entry;
+package com.github.deividasp.hstracker.hs.entry.skill;
+
+import com.github.deividasp.hstracker.hs.entry.HighScoresEntry;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;

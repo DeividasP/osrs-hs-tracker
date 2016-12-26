@@ -1,4 +1,4 @@
-package com.github.deividasp.hstracker.hs;
+package com.github.deividasp.hstracker.hs.entry.minigame;
 
 import java.util.Optional;
 
@@ -23,7 +23,7 @@ public enum Minigames {
 
 	public static Optional<Minigames> forName(String name) {
 		for (Minigames minigame : Minigames.values()) {
-			if (minigame.getHighScoresName().equalsIgnoreCase(name)) {
+			if (minigame.getHighScoresName().equals(name)) {
 				return Optional.of(minigame);
 			}
 		}

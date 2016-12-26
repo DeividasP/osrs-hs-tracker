@@ -17,9 +17,9 @@ public abstract class HighScoresEntry {
 	private String name;
 	private int rank;
 
-	HighScoresEntry() { }
+	protected HighScoresEntry() { }
 
-	HighScoresEntry(String name, int rank) {
+	protected HighScoresEntry(String name, int rank) {
 		this.name = name;
 		this.rank = rank;
 	}

@@ -1,5 +1,7 @@
 package com.github.deividasp.hstracker.hs;
 
+import com.github.deividasp.hstracker.hs.entry.minigame.Minigames;
+import com.github.deividasp.hstracker.hs.entry.skill.Skills;
 import com.github.deividasp.hstracker.util.FileUtils;
 
 import org.junit.Test;
