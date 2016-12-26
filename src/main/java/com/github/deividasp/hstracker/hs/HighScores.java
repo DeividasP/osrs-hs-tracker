@@ -12,17 +12,23 @@ import java.util.Optional;
 public class HighScores {
 
 	private final String username;
+	private final GameModes gameMode;
 	private final Map<Skills, SkillEntry> skillEntries;
 	private final Map<Minigames, MinigameEntry> minigameEntries;
 
-	public HighScores(String username, Map<Skills, SkillEntry> skillEntries, Map<Minigames, MinigameEntry> minigameEntries) {
+	public HighScores(String username, GameModes gameMode, Map<Skills, SkillEntry> skillEntries, Map<Minigames, MinigameEntry> minigameEntries) {
 		this.username = username;
+		this.gameMode = gameMode;
 		this.skillEntries = skillEntries;
 		this.minigameEntries = minigameEntries;
 	}
 
 	public String getUsername() {
 		return username;
+	}
+
+	public GameModes getGameMode() {
+		return gameMode;
 	}
 
 	public Optional<SkillEntry> getSkillEntry(Skills skill) {

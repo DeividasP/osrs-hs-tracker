@@ -20,7 +20,7 @@ import java.util.Optional;
  */
 public class HighScoresParser {
 
-	private static final String HIGH_SCORES_URL = "http://services.runescape.com/m=hiscore_oldschool/hiscorepersonal.ws?user1=%s";
+	private static final String HIGH_SCORES_URL = "http://services.runescape.com/m=hiscore_oldschool%s/hiscorepersonal.ws?user1=%s";
 
 	private static final String ENTRIES_QUERY = "tr:gt(2)";
 	private static final String ENTRY_COLUMNS_QUERY = "td";
@@ -38,12 +38,20 @@ public class HighScoresParser {
 	private static final int SCORE_COLUMN_INDEX = 3;
 	private static final int EXPERIENCE_COLUMN_INDEX = 4;
 
+	private static final GameModes DEFAULT_GAME_MODE = GameModes.NORMAL;
+
 	private final String username;
+	private final GameModes gameMode;
 
 	private Document document;
 
 	public HighScoresParser(String username) {
+		this(username, DEFAULT_GAME_MODE);
+	}
+
+	public HighScoresParser(String username, GameModes gameMode) {
 		this.username = username;
+		this.gameMode = gameMode;
 	}
 
 	public void read(File file) throws IOException {
@@ -51,7 +59,7 @@ public class HighScoresParser {
 	}
 
 	public void connect() throws Exception {
-		String url = String.format(HIGH_SCORES_URL, URLEncoder.encode(username, "UTF-8"));
+		String url = String.format(HIGH_SCORES_URL, gameMode.getUrlParameterSuffix(), URLEncoder.encode(username, "UTF-8"));
 
 		document = Jsoup.connect(url).get();
 	}
@@ -69,7 +77,7 @@ public class HighScoresParser {
 		document.select(ENTRIES_QUERY).stream().filter(e -> e.select(ENTRY_COLUMNS_QUERY).size() == MINIGAME_ENTRY_COLUMN_COUNT)
 				.forEach(e -> parseMinigameEntry(e, minigameEntries));
 
-		return Optional.of(new HighScores(username, skillEntries, minigameEntries));
+		return Optional.of(new HighScores(username, gameMode, skillEntries, minigameEntries));
 	}
 
 	private boolean userExists() {
