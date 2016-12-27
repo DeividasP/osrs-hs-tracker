@@ -4,6 +4,7 @@ import com.github.deividasp.hstracker.hs.entry.minigame.MinigameEntry;
 import com.github.deividasp.hstracker.hs.entry.minigame.Minigames;
 import com.github.deividasp.hstracker.hs.entry.skill.SkillEntry;
 import com.github.deividasp.hstracker.hs.entry.skill.Skills;
+import com.github.deividasp.hstracker.util.MapUtils;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -14,6 +15,7 @@ import javax.persistence.IdClass;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
@@ -69,6 +71,33 @@ public class HighScores {
 
 	public Optional<MinigameEntry> getMinigameEntry(Minigames minigame) {
 		return Optional.ofNullable(minigameEntries.get(minigame));
+	}
+
+	public HighScores getDifference(Optional<HighScores> otherHighScoresOptional) {
+		if (!otherHighScoresOptional.isPresent()) {
+			return new HighScores(username, gameMode, System.currentTimeMillis(),
+					MapUtils.copy(skillEntries), MapUtils.copy(minigameEntries));
+		}
+
+		HighScores otherHighScores = otherHighScoresOptional.get();
+
+		Map<Skills, SkillEntry> skillEntries = new HashMap<>();
+
+		for (Skills skill : Skills.values()) {
+			getSkillEntry(skill).ifPresent(e ->
+				skillEntries.put(skill, e.getDifference(otherHighScores.getSkillEntry(skill)))
+			);
+		}
+
+		Map<Minigames, MinigameEntry> minigameEntries = new HashMap<>();
+
+		for (Minigames minigame : Minigames.values()) {
+			getMinigameEntry(minigame).ifPresent(m ->
+				minigameEntries.put(minigame, m.getDifference(otherHighScores.getMinigameEntry(minigame)))
+			);
+		}
+
+		return new HighScores(username, gameMode, System.currentTimeMillis(), skillEntries, minigameEntries);
 	}
 
 }

@@ -5,6 +5,8 @@ import com.github.deividasp.hstracker.hs.entry.HighScoresEntry;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
+import java.util.Optional;
+
 /**
  * @author Deividas Popelskis <deividas.popelskis@gmail.com>
  */
@@ -30,6 +32,16 @@ public class SkillEntry extends HighScoresEntry {
 
 	public long getExperience() {
 		return experience;
+	}
+
+	public SkillEntry getDifference(Optional<SkillEntry> otherEntryOptional) {
+		if (!otherEntryOptional.isPresent()) {
+			return new SkillEntry(name, rank, level, experience);
+		}
+
+		SkillEntry otherEntry = otherEntryOptional.get();
+
+		return new SkillEntry(name, rank - otherEntry.getRank(), level - otherEntry.level, experience - otherEntry.experience);
 	}
 
 }

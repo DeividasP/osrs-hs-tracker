@@ -14,8 +14,8 @@ public abstract class HighScoresEntry {
 	@GeneratedValue
 	private long id;
 
-	private String name;
-	private int rank;
+	protected String name;
+	protected int rank;
 
 	protected HighScoresEntry() { }
 

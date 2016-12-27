@@ -5,6 +5,8 @@ import com.github.deividasp.hstracker.hs.entry.HighScoresEntry;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
+import java.util.Optional;
+
 /**
  * @author Deividas Popelskis <deividas.popelskis@gmail.com>
  */
@@ -24,6 +26,16 @@ public class MinigameEntry extends HighScoresEntry {
 
 	public int getScore() {
 		return score;
+	}
+
+	public MinigameEntry getDifference(Optional<MinigameEntry> otherEntryOptional) {
+		if (!otherEntryOptional.isPresent()) {
+			return new MinigameEntry(name, rank, score);
+		}
+
+		MinigameEntry otherEntry = otherEntryOptional.get();
+
+		return new MinigameEntry(name, rank - otherEntry.getRank(), score - otherEntry.score);
 	}
 
 }
