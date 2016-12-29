@@ -1,19 +1,14 @@
 package com.github.deividasp.hstracker.hs;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.github.deividasp.hstracker.hs.entry.minigame.MinigameEntry;
 import com.github.deividasp.hstracker.hs.entry.minigame.Minigames;
 import com.github.deividasp.hstracker.hs.entry.skill.SkillEntry;
 import com.github.deividasp.hstracker.hs.entry.skill.Skills;
+import com.github.deividasp.hstracker.serialization.MapSerializer;
 import com.github.deividasp.hstracker.util.MapUtils;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.Id;
-import javax.persistence.IdClass;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -38,9 +33,11 @@ public class HighScores {
 	private long timestamp;
 
 	@OneToMany(cascade = CascadeType.ALL)
+	@JsonSerialize(using = MapSerializer.class)
 	private Map<Skills, SkillEntry> skillEntries;
 
 	@OneToMany(cascade = CascadeType.ALL)
+	@JsonSerialize(using = MapSerializer.class)
 	private Map<Minigames, MinigameEntry> minigameEntries;
 
 	private HighScores() { }
@@ -73,10 +70,9 @@ public class HighScores {
 		return Optional.ofNullable(minigameEntries.get(minigame));
 	}
 
-	public HighScores getDifference(Optional<HighScores> otherHighScoresOptional) {
+	public Optional<HighScores> getDifference(Optional<HighScores> otherHighScoresOptional) {
 		if (!otherHighScoresOptional.isPresent()) {
-			return new HighScores(username, gameMode, System.currentTimeMillis(),
-					MapUtils.copy(skillEntries), MapUtils.copy(minigameEntries));
+			return Optional.empty();
 		}
 
 		HighScores otherHighScores = otherHighScoresOptional.get();
@@ -97,7 +93,8 @@ public class HighScores {
 			);
 		}
 
-		return new HighScores(username, gameMode, System.currentTimeMillis(), skillEntries, minigameEntries);
+		return Optional.of(new HighScores(username, gameMode, System.currentTimeMillis(),
+				skillEntries, minigameEntries));
 	}
 
 }
