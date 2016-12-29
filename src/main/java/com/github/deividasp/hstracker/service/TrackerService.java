@@ -10,4 +10,7 @@ public interface TrackerService {
 	boolean track(String username);
 	boolean track(String username, GameModes gameMode);
 
+	boolean update(String username);
+	boolean update(String username, GameModes gameMode);
+
 }

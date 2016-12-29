@@ -21,6 +21,23 @@ public class DefaultTrackerService implements TrackerService {
 	@Autowired
 	private HighScoresRepository highScoresRepo;
 
+	private boolean persistHighScores(String username, GameModes gameMode) {
+		HighScoresParser parser = new HighScoresParser(username, gameMode);
+
+		try {
+			parser.connect();
+		} catch (Exception exception) {
+			exception.printStackTrace();
+			return false;
+		}
+
+		Optional<HighScores> highScores = parser.parse();
+
+		highScores.ifPresent(highScoresRepo::save);
+
+		return highScores.isPresent();
+	}
+
 	@Override
 	public boolean track(String username) {
 		return track(username, DEFAULT_TRACKING_GAME_MODE);
@@ -28,22 +45,19 @@ public class DefaultTrackerService implements TrackerService {
 
 	@Override
 	public boolean track(String username, GameModes gameMode) {
-		if (!highScoresRepo.existsByUsernameAndGameMode(username, gameMode)) {
-			HighScoresParser parser = new HighScoresParser(username, gameMode);
+		return highScoresRepo.existsByUsernameAndGameMode(username, gameMode)
+				|| persistHighScores(username, gameMode);
+	}
 
-			try {
-				parser.connect();
-			} catch (Exception exception) {
-				exception.printStackTrace();
-				return false;
-			}
+	@Override
+	public boolean update(String username) {
+		return update(username, DEFAULT_TRACKING_GAME_MODE);
+	}
 
-			Optional<HighScores> highScores = parser.parse();
-
-			highScores.ifPresent(highScoresRepo::save);
-			return highScores.isPresent();
-		}
-		return true;
+	@Override
+	public boolean update(String username, GameModes gameMode) {
+		return highScoresRepo.existsByUsernameAndGameMode(username, gameMode)
+				&& persistHighScores(username, gameMode);
 	}
 
 }

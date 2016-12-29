@@ -31,4 +31,16 @@ public class TrackerController {
 		return service.track(username);
 	}
 
+	@RequestMapping({ "/api/update/{username}", "/api/update/{gameMode}/{username}" })
+	public boolean update(@PathVariable String username, @PathVariable Optional<String> gameMode) {
+		if (gameMode.isPresent()) {
+			Optional<GameModes> mode = GameModes.forName(gameMode.get());
+
+			if (mode.isPresent()) {
+				return service.update(username, mode.get());
+			}
+		}
+		return service.update(username);
+	}
+
 }
