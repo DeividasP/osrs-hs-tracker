@@ -44,7 +44,7 @@ public class TrackerController {
 		return service.update(username);
 	}
 
-	@RequestMapping({ "/api/diff/{username}/{seconds}", "/api/get/{username}/{gameMode}/{seconds}" })
+	@RequestMapping({ "/api/diff/{username}/{seconds}", "/api/diff/{gameMode}/{username}/{seconds}" })
 	public HighScores diff(@PathVariable String username, @PathVariable Optional<String> gameMode, @PathVariable int seconds) {
 		if (gameMode.isPresent()) {
 			Optional<GameModes> mode = GameModes.forName(gameMode.get());
