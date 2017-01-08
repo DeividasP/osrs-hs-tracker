@@ -1,14 +1,21 @@
 package com.github.deividasp.hstracker.hs;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
 import com.github.deividasp.hstracker.hs.entry.minigame.MinigameEntry;
 import com.github.deividasp.hstracker.hs.entry.minigame.Minigames;
 import com.github.deividasp.hstracker.hs.entry.skill.SkillEntry;
 import com.github.deividasp.hstracker.hs.entry.skill.Skills;
 import com.github.deividasp.hstracker.serialization.MapSerializer;
-import com.github.deividasp.hstracker.util.MapUtils;
 
-import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.Id;
+import javax.persistence.IdClass;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
 import java.util.HashMap;
 import java.util.Map;

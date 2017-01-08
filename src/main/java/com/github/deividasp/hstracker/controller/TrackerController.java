@@ -1,6 +1,7 @@
 package com.github.deividasp.hstracker.controller;
 
 import com.github.deividasp.hstracker.hs.GameModes;
+import com.github.deividasp.hstracker.hs.HighScores;
 import com.github.deividasp.hstracker.service.TrackerService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,6 +42,31 @@ public class TrackerController {
 			}
 		}
 		return service.update(username);
+	}
+
+	@RequestMapping({ "/api/diff/{username}/{seconds}", "/api/get/{username}/{gameMode}/{seconds}" })
+	public HighScores diff(@PathVariable String username, @PathVariable Optional<String> gameMode, @PathVariable int seconds) {
+		if (gameMode.isPresent()) {
+			Optional<GameModes> mode = GameModes.forName(gameMode.get());
+
+			if (mode.isPresent()) {
+				Optional<HighScores> highScoresOptional = service.getDifference(username, mode.get(), seconds);
+
+				if (highScoresOptional.isPresent()) {
+					return highScoresOptional.get();
+				}
+
+				return null;
+			}
+		}
+
+		Optional<HighScores> highScoresOptional = service.getDifference(username, seconds);
+
+		if (highScoresOptional.isPresent()) {
+			return highScoresOptional.get();
+		}
+
+		return null;
 	}
 
 }
