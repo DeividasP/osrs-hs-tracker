@@ -35,7 +35,7 @@ public class MinigameEntry extends HighScoresEntry {
 
 		MinigameEntry otherEntry = otherEntryOptional.get();
 
-		return new MinigameEntry(name, rank - otherEntry.getRank(), score - otherEntry.score);
+		return new MinigameEntry(name, otherEntry.getRank() - rank, score - otherEntry.score);
 	}
 
 }

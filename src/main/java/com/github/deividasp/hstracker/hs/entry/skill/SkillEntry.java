@@ -41,7 +41,7 @@ public class SkillEntry extends HighScoresEntry {
 
 		SkillEntry otherEntry = otherEntryOptional.get();
 
-		return new SkillEntry(name, rank - otherEntry.getRank(), level - otherEntry.level, experience - otherEntry.experience);
+		return new SkillEntry(name, otherEntry.getRank() - rank, level - otherEntry.level, experience - otherEntry.experience);
 	}
 
 }
